@@ -1,0 +1,174 @@
+﻿<UserControl x:Class="ThreadsInSemaphoreSimulation.UserControls.UC_NumericUpDown"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ThreadsInSemaphoreSimulation.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type RepeatButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Border Name="borderOuter" BorderThickness="1" BorderBrush="#6a6b6f" CornerRadius="1">
+                            <Border Name="borderInner" BorderThickness="1">
+                                <Border.BorderBrush>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Offset="0" Color="White" />
+                                        <GradientStop Offset="1" Color="#e7e7e7" />
+                                    </LinearGradientBrush>
+                                </Border.BorderBrush>
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Offset="0" Color="#F2F2F2" />
+                                        <GradientStop Offset="0.4" Color="#EBEBEB" />
+                                        <GradientStop Offset="0.5" Color="#DDDDDD" />
+                                        <GradientStop Offset="1" Color="#CECECE" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+
+                                <ContentPresenter Margin="3,1" />
+                            </Border>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="borderOuter" Property="BorderBrush" Value="#3C7FB1" />
+                                <Setter TargetName="borderInner" Property="BorderBrush">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Offset="0" Color="White" />
+                                            <GradientStop Offset="0.4" Color="#F6FBFE" />
+                                            <GradientStop Offset="0.5" Color="#EEF8FE" />
+                                            <GradientStop Offset="1" Color="#D6EDFA" />
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="borderInner" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Offset="0" Color="#E7F5FD" />
+                                            <GradientStop Offset="0.4" Color="#DAF0FC" />
+                                            <GradientStop Offset="0.5" Color="#BDE6FD" />
+                                            <GradientStop Offset="1" Color="#AADBF6" />
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="borderOuter" Property="BorderBrush" Value="#2C628B" />
+                                <Setter TargetName="borderInner" Property="BorderBrush" Value="#8EA3AF" />
+                                <Setter TargetName="borderInner" Property="Background">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Offset="0" Color="#C2E4F6" />
+                                            <GradientStop Offset="0.4" Color="#C2E4F6" />
+                                            <GradientStop Offset="0.5" Color="#A9DAF3" />
+                                            <GradientStop Offset="1" Color="#91CCEB" />
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="IsTabStop" Value="False" />
+        </Style>
+
+        <Style x:Key="triangleStyle" TargetType="{x:Type ContentControl}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ContentControl}">
+                        <Polyline x:Name="polyline" RenderOptions.EdgeMode="Aliased" Stretch="Uniform">
+                            <Polyline.Points>
+                                <Point X="0" Y="3" />
+                                <Point X="3" Y="0" />
+                                <Point X="6" Y="3" />
+                            </Polyline.Points>
+
+                            <Polyline.Fill>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStop Offset="0" Color="#4D5678" />
+                                    <GradientStop Offset="1" Color="#7085D1" />
+                                </LinearGradientBrush>
+                            </Polyline.Fill>
+                        </Polyline>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="polyline" Property="Fill" Value="DimGray" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <UserControl.Style>
+        <Style>
+            <Setter Property="UserControl.Background" Value="White" />
+            <Style.Triggers>
+                <Trigger Property="UserControl.IsEnabled" Value="False">
+                    <Setter Property="UserControl.Background" Value="#F0F0F0" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Style>
+
+    <Border BorderThickness="1" BorderBrush="#ABADB3">
+        <Border.Style>
+            <Style>
+                <Setter Property="Border.Background" Value="{Binding ElementName=ucNUPD, Path=Background}" />
+                <Style.Triggers>
+                    <Trigger Property="Border.IsEnabled" Value="False">
+                        <Setter Property="Border.Background" Value="#F0F0F0" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+
+        <Grid>
+            <Border Name="borderError" BorderThickness="1" BorderBrush="Red" Background="Transparent" Opacity="0" />
+
+            <DockPanel Margin="1">
+                <UniformGrid DockPanel.Dock="Right" Rows="2" MinWidth="17" Width="{Binding ElementName=ucNUPD, Path=SpinnerWidth}">
+                    <RepeatButton Name="repeatButtonUp" Grid.Row="0" Click="repeatButtonUp_Click" PreviewMouseLeftButtonUp="repeatButton_PreviewMouseLeftButtonUp">
+                        <ContentControl Style="{StaticResource triangleStyle}" IsTabStop="False" />
+                    </RepeatButton>
+
+                    <RepeatButton Name="repeatButtonDown" Grid.Row="1" Click="repeatButtonDown_Click" PreviewMouseLeftButtonUp="repeatButton_PreviewMouseLeftButtonUp">
+                        <ContentControl Style="{StaticResource triangleStyle}" RenderTransformOrigin="0.5, 0.5" IsTabStop="False">
+                            <ContentControl.RenderTransform>
+                                <ScaleTransform ScaleY="-1" />
+                            </ContentControl.RenderTransform>
+                        </ContentControl>
+                    </RepeatButton>
+                </UniformGrid>
+
+                <TextBox Name="textBoxValue" Grid.RowSpan="2" BorderThickness="0" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Text="0" MaxLength="3"
+                         Background="Transparent" Foreground="{Binding ElementName=ucNUPD, Path=Foreground}" LostFocus="textBoxValue_LostFocus" DataObject.Pasting="textBoxValue_Pasting"
+                         Margin="-1,1,1,1" PreviewTextInput="textBoxValue_PreviewTextInput" PreviewKeyDown="textBoxValue_PreviewKeyDown" PreviewKeyUp="textBoxValue_PreviewKeyUp"
+                         MouseDoubleClick="textBoxValue_MouseDoubleClick">
+                    <TextBox.Style>
+                        <Style TargetType="{x:Type TextBox}">
+                            <Style.Triggers>
+                                <Trigger Property="ContextMenuService.IsEnabled" Value="False">
+                                    <Setter Property="ContextMenu">
+                                        <Setter.Value>
+                                            <ContextMenu />
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+            </DockPanel>
+        </Grid>
+    </Border>
+</UserControl>
